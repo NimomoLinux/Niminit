@@ -6,14 +6,6 @@
 #include <sys/reboot.h>
 #include <linux/reboot.h>
 
-#include <sys/mount.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
-#include <sys/reboot.h>
-#include <linux/reboot.h>
-
 int main(void)
 {
     if (mount("proc", "/proc", "proc", 0, NULL) < 0)
