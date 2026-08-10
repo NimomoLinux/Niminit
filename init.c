@@ -17,14 +17,10 @@ int main(void) {
         perror("Fork failed");
         return 1;
     } else if (pid == 0) {
-        // --- CHILD PROCESS ---
-        // Replace this process with the shell
         execl("/bin/sh", "sh", NULL);
         perror("execl failed");
         exit(1);
     } else {
-        // --- PARENT PROCESS (PID 1) ---
-        // Wait for the child shell process (pid) to finish
         waitpid(pid, NULL, 0);
         
         printf("Shell exited. Shutting down NimomOS...\n");
