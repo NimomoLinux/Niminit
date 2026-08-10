@@ -6,27 +6,30 @@
 #include <sys/reboot.h>
 #include <linux/reboot.h>
 
-int main(void) {
-    mount("proc", "/proc", "proc", 0, NULL);
-    mount("sysfs", "/sys", "sysfs", 0, NULL);
-    printf("NimomOS starting... Niminit succeeded...\n");
+int main(void)
+{
+    if (mount("proc", "/proc", "proc", 0, NULL) < 0)
+        perror("mount /proc");
+
+    if (mount("sysfs", "/sys", "sysfs", 0, NULL) < 0)
+        perror("mount /sys");
+
+    printf("NimomOS starting...\n");
+    fflush(stdout);
 
     pid_t pid = fork();
 
     if (pid < 0) {
-        perror("Fork failed");
+        perror("fork");
         return 1;
-    } else if (pid == 0) {
-        execl("/bin/sh", "sh", NULL);
-        perror("execl failed");
-        exit(1);
-    } else {
-        waitpid(pid, NULL, 0);
-        
-        printf("Shell exited. Shutting down NimomOS...\n");
-        reboot(LINUX_REBOOT_CMD_POWER_OFF);
-        while(1) { sleep(1); }
     }
 
-    return 0;
+    if (pid == 0) {
+        printf("Starting shell...\n");
+        fflush(stdout);
+
+        execl("/bin/sh", "sh", NULL);
+
+        perror("execl /bin/sh");
+        _exit(1);
 }
