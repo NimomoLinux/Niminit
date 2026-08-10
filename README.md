@@ -1,7 +1,7 @@
-# Niminit
+# NimomOS
 A lightweight init made by a complete idiot at codding in C
 . So uh that's basically it, it's mostly a backup for me
-
+NimomOS is still in very early development, don't use it
 
 
 Boot with:
